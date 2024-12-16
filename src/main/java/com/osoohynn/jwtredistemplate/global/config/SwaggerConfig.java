@@ -14,8 +14,8 @@ public class SwaggerConfig {
     public OpenAPI api() {
         return new OpenAPI()
                 .info(
-                        new Info().title("pumpkin")
-                                .description("pumpkin API/ 3.34.42.211")
+                        new Info().title("jwt redis template")
+                                .description("redis 를 사용한 jwt template 입니다.")
                                 .version("1.0.0")
                 )
                 .addSecurityItem(new SecurityRequirement().addList("Authorization"))
