@@ -5,6 +5,7 @@ import com.osoohynn.jwtredistemplate.domain.auth.dto.request.LoginRequest;
 import com.osoohynn.jwtredistemplate.domain.auth.dto.request.RefreshRequest;
 import com.osoohynn.jwtredistemplate.domain.auth.dto.request.SignUpRequest;
 import com.osoohynn.jwtredistemplate.domain.user.domain.entity.User;
+import com.osoohynn.jwtredistemplate.domain.user.domain.enums.UserRole;
 import com.osoohynn.jwtredistemplate.domain.user.error.UserError;
 import com.osoohynn.jwtredistemplate.domain.user.repository.UserRepository;
 import com.osoohynn.jwtredistemplate.global.exception.CustomException;
@@ -22,8 +23,8 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     public void signUp(SignUpRequest request) {
-        String username = request.Username();
-        String password = passwordEncoder.encode(request.Password());
+        String username = request.username();
+        String password = passwordEncoder.encode(request.password());
 
         if (userRepository.existsByUsername(username)) {
             throw new CustomException(UserError.USERNAME_DUPLICATION);
@@ -32,6 +33,7 @@ public class AuthService {
         User user = User.builder()
                 .username(username)
                 .password(password)
+                .role(UserRole.USER)
                 .build();
 
         userRepository.save(user);
@@ -43,7 +45,7 @@ public class AuthService {
 
         User user = userRepository.findByUsername(username).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
-        if (!passwordEncoder.matches(password, request.password())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new CustomException(UserError.WRONG_PASSWORD);
         }
 
