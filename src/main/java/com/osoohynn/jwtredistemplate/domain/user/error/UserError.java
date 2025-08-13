@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum UserError implements CustomError {
-    USER_NOT_FOUND(401, "user not fount"),
+    USER_NOT_FOUND(401, "user not found"),
     WRONG_PASSWORD(401, "wrong password"),
     USERNAME_DUPLICATION(401, "user duplicate"),
     ;
